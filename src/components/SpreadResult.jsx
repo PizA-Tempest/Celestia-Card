@@ -7,6 +7,7 @@ export default function SpreadResult({
   positions,
   onAgain,
   onNewReading,
+  actions = true,
 }) {
   const isWide = positions.length > 4
 
@@ -53,14 +54,16 @@ export default function SpreadResult({
         <p>{combineReading(draws, positions)}</p>
       </div>
 
-      <div className="result-actions">
-        <button type="button" className="btn" onClick={onAgain}>
-          Draw Again
-        </button>
-        <button type="button" className="btn btn-ghost" onClick={onNewReading}>
-          New Reading
-        </button>
-      </div>
+      {actions && (
+        <div className="result-actions">
+          <button type="button" className="btn" onClick={onAgain}>
+            Draw Again
+          </button>
+          <button type="button" className="btn btn-ghost" onClick={onNewReading}>
+            New Reading
+          </button>
+        </div>
+      )}
     </section>
   )
 }

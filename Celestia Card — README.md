@@ -445,7 +445,7 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Five Card Reading
 - [x] Lucky Draw
 - [x] Tarot Card Encyclopedia
-- [ ] Reading History
+- [x] Reading History
 - [ ] Favorite Cards
 - [ ] Share Reading
 - [ ] Switch Laguage Thai to English

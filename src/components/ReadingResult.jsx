@@ -5,6 +5,7 @@ export default function ReadingResult({
   draw,
   onDrawAgain,
   onNewReading,
+  actions = true,
 }) {
   const { card, orientation } = draw
   const meaning = orientation === 'upright' ? card.upright : card.reversed
@@ -24,14 +25,16 @@ export default function ReadingResult({
         <p>{meaning}</p>
         <p className="result-general">{card.general}</p>
       </div>
-      <div className="result-actions">
-        <button type="button" className="btn" onClick={onDrawAgain}>
-          Draw Again
-        </button>
-        <button type="button" className="btn btn-ghost" onClick={onNewReading}>
-          New Reading
-        </button>
-      </div>
+      {actions && (
+        <div className="result-actions">
+          <button type="button" className="btn" onClick={onDrawAgain}>
+            Draw Again
+          </button>
+          <button type="button" className="btn btn-ghost" onClick={onNewReading}>
+            New Reading
+          </button>
+        </div>
+      )}
     </section>
   )
 }

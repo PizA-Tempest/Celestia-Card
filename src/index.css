@@ -820,6 +820,82 @@ body {
   margin: 0;
 }
 
+/* History */
+
+.history {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.history-clear {
+  align-self: center;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(22, 27, 51, 0.55);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.history-item:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.history-mode {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gold-soft);
+}
+
+.history-cards {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.history-date {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+
+.result-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.history-back {
+  margin-top: 6px;
+}
+
 /* Footer */
 
 .footer {

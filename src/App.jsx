@@ -2,9 +2,11 @@ import { useState } from 'react'
 import CardDeck from './components/CardDeck.jsx'
 import CardSpread from './components/CardSpread.jsx'
 import Encyclopedia from './components/Encyclopedia.jsx'
+import HistoryView from './components/HistoryView.jsx'
 import LuckyDraw from './components/LuckyDraw.jsx'
 import ReadingResult from './components/ReadingResult.jsx'
 import SpreadResult from './components/SpreadResult.jsx'
+import { addHistoryEntry } from './utils/history.js'
 import { POSITION_3, POSITION_5 } from './utils/reading.js'
 
 export default function App() {
@@ -17,18 +19,22 @@ export default function App() {
   const startFiveCard = () => setPhase('choose5')
   const startLuckyDraw = () => setPhase('lucky')
   const startEncyclopedia = () => setPhase('ency')
+  const startHistory = () => setPhase('history')
 
   const handlePick = (result) => {
+    addHistoryEntry('daily', [result])
     setDraw(result)
     setPhase('result')
   }
 
   const handleLuckyDraw = (result) => {
+    addHistoryEntry('lucky', [result])
     setDraw(result)
     setPhase('resultLucky')
   }
 
-  const handleSpreadComplete = (resultPhase) => (draws) => {
+  const handleSpreadComplete = (resultPhase, mode) => (draws) => {
+    addHistoryEntry(mode, draws)
     setSpread(draws)
     setPhase(resultPhase)
   }
@@ -97,6 +103,11 @@ export default function App() {
                 <span className="mode-name">Tarot Encyclopedia</span>
                 <span className="mode-desc">Browse all 78 cards and their meanings</span>
               </button>
+              <button type="button" className="mode" onClick={startHistory}>
+                <span className="mode-symbol">☾</span>
+                <span className="mode-name">Reading History</span>
+                <span className="mode-desc">Revisit your past readings</span>
+              </button>
             </div>
           </section>
         )}
@@ -117,7 +128,7 @@ export default function App() {
             </p>
             <CardSpread
               positions={POSITION_3}
-              onComplete={handleSpreadComplete('result3')}
+              onComplete={handleSpreadComplete('result3', 'three')}
             />
           </section>
         )}
@@ -131,7 +142,7 @@ export default function App() {
             </p>
             <CardSpread
               positions={POSITION_5}
-              onComplete={handleSpreadComplete('result5')}
+              onComplete={handleSpreadComplete('result5', 'five')}
             />
           </section>
         )}
@@ -144,6 +155,8 @@ export default function App() {
         )}
 
         {phase === 'ency' && <Encyclopedia onBack={newReading} />}
+
+        {phase === 'history' && <HistoryView onBack={newReading} />}
 
         {phase === 'result' && draw && (
           <ReadingResult
