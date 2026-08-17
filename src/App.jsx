@@ -1,16 +1,25 @@
 import { useState } from 'react'
 import CardDeck from './components/CardDeck.jsx'
 import ReadingResult from './components/ReadingResult.jsx'
+import ThreeCardSpread from './components/ThreeCardSpread.jsx'
+import ThreeCardResult from './components/ThreeCardResult.jsx'
 
 export default function App() {
   const [phase, setPhase] = useState('intro')
   const [draw, setDraw] = useState(null)
+  const [spread, setSpread] = useState(null)
 
   const startDailyCard = () => setPhase('choose')
+  const startThreeCard = () => setPhase('choose3')
 
   const handlePick = (result) => {
     setDraw(result)
     setPhase('result')
+  }
+
+  const handleSpreadComplete = (draws) => {
+    setSpread(draws)
+    setPhase('result3')
   }
 
   const drawAgain = () => {
@@ -18,8 +27,14 @@ export default function App() {
     setPhase('choose')
   }
 
+  const spreadAgain = () => {
+    setSpread(null)
+    setPhase('choose3')
+  }
+
   const newReading = () => {
     setDraw(null)
+    setSpread(null)
     setPhase('intro')
   }
 
@@ -43,11 +58,18 @@ export default function App() {
             <p className="intro-sub">
               No questions. No forms. Trust your intuition and let the cards speak.
             </p>
-            <button type="button" className="mode" onClick={startDailyCard}>
-              <span className="mode-symbol">☀</span>
-              <span className="mode-name">Daily Card</span>
-              <span className="mode-desc">A one-card message for your day</span>
-            </button>
+            <div className="modes">
+              <button type="button" className="mode" onClick={startDailyCard}>
+                <span className="mode-symbol">☀</span>
+                <span className="mode-name">Daily Card</span>
+                <span className="mode-desc">A one-card message for your day</span>
+              </button>
+              <button type="button" className="mode" onClick={startThreeCard}>
+                <span className="mode-symbol">✦</span>
+                <span className="mode-name">Three Card Reading</span>
+                <span className="mode-desc">Past · Present · Future</span>
+              </button>
+            </div>
           </section>
         )}
 
@@ -59,10 +81,28 @@ export default function App() {
           </section>
         )}
 
+        {phase === 'choose3' && (
+          <section className="choose">
+            <h2 className="section-title">Three Card Reading</h2>
+            <p className="section-hint">
+              Reveal each card — Past, Present, Future.
+            </p>
+            <ThreeCardSpread onComplete={handleSpreadComplete} />
+          </section>
+        )}
+
         {phase === 'result' && draw && (
           <ReadingResult
             draw={draw}
             onDrawAgain={drawAgain}
+            onNewReading={newReading}
+          />
+        )}
+
+        {phase === 'result3' && spread && (
+          <ThreeCardResult
+            draws={spread}
+            onAgain={spreadAgain}
             onNewReading={newReading}
           />
         )}

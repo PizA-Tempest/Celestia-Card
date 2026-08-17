@@ -436,12 +436,12 @@ The application should not be used as the sole basis for medical, financial, leg
 
 # 🚀 Future Features
 
-- [ ] Complete 78-card Tarot database
+- [x] Complete 78-card Tarot database
 - [ ] Real Tarot card artwork
-- [ ] Card flip animation
-- [ ] Upright / reversed cards
-- [ ] Daily Card
-- [ ] Three Card Reading
+- [x] Card flip animation
+- [x] Upright / reversed cards
+- [x] Daily Card
+- [x] Three Card Reading
 - [ ] Five Card Reading
 - [ ] Lucky Draw
 - [ ] Tarot Card Encyclopedia
