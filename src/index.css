@@ -1,0 +1,564 @@
+:root {
+  --bg: #0a0e1a;
+  --bg-soft: #12162b;
+  --panel: #161b33;
+  --gold: #d9b56a;
+  --gold-soft: #f0dfb4;
+  --text: #e8e6f0;
+  --muted: #9a97b3;
+  --line: rgba(217, 181, 106, 0.35);
+  --card-w: clamp(120px, 22vw, 168px);
+  --card-h: calc(var(--card-w) * 1.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.9) 0 100%, transparent),
+    radial-gradient(1px 1px at 28% 68%, rgba(255, 255, 255, 0.55) 0 100%, transparent),
+    radial-gradient(1.5px 1.5px at 40% 14%, rgba(255, 217, 138, 0.8) 0 100%, transparent),
+    radial-gradient(1px 1px at 52% 48%, rgba(255, 255, 255, 0.5) 0 100%, transparent),
+    radial-gradient(1.5px 1.5px at 64% 78%, rgba(255, 255, 255, 0.75) 0 100%, transparent),
+    radial-gradient(1px 1px at 76% 32%, rgba(255, 217, 138, 0.6) 0 100%, transparent),
+    radial-gradient(1.5px 1.5px at 88% 62%, rgba(255, 255, 255, 0.65) 0 100%, transparent),
+    radial-gradient(1px 1px at 94% 18%, rgba(255, 255, 255, 0.4) 0 100%, transparent),
+    radial-gradient(1px 1px at 18% 88%, rgba(255, 255, 255, 0.45) 0 100%, transparent),
+    radial-gradient(1.5px 1.5px at 70% 6%, rgba(255, 217, 138, 0.5) 0 100%, transparent),
+    linear-gradient(180deg, #0a0e1a 0%, #10142a 55%, #0a0e1a 100%);
+  background-attachment: fixed;
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Animated cosmos */
+
+.cosmos {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cosmos-layer {
+  position: absolute;
+  inset: -50%;
+  background-repeat: repeat;
+  will-change: background-position, opacity;
+}
+
+.cosmos-far {
+  background-image:
+    radial-gradient(1px 1px at 24px 58px, rgba(255, 255, 255, 0.55) 0 100%, transparent),
+    radial-gradient(1px 1px at 92px 132px, rgba(255, 255, 255, 0.4) 0 100%, transparent),
+    radial-gradient(1px 1px at 158px 42px, rgba(255, 217, 138, 0.5) 0 100%, transparent),
+    radial-gradient(1.2px 1.2px at 214px 178px, rgba(255, 255, 255, 0.5) 0 100%, transparent),
+    radial-gradient(1px 1px at 122px 218px, rgba(255, 255, 255, 0.4) 0 100%, transparent),
+    radial-gradient(1.2px 1.2px at 268px 92px, rgba(255, 217, 138, 0.45) 0 100%, transparent);
+  background-size: 300px 260px;
+  animation: drift 240s linear infinite, twinkle-far 5s ease-in-out infinite alternate;
+}
+
+.cosmos-near {
+  background-image:
+    radial-gradient(1.6px 1.6px at 40px 90px, rgba(240, 223, 180, 0.8) 0 100%, transparent),
+    radial-gradient(1.2px 1.2px at 170px 46px, rgba(255, 255, 255, 0.65) 0 100%, transparent),
+    radial-gradient(1.4px 1.4px at 250px 170px, rgba(240, 223, 180, 0.7) 0 100%, transparent),
+    radial-gradient(1.1px 1.1px at 320px 250px, rgba(255, 255, 255, 0.55) 0 100%, transparent),
+    radial-gradient(1.5px 1.5px at 400px 120px, rgba(255, 217, 138, 0.6) 0 100%, transparent);
+  background-size: 460px 420px;
+  animation: drift 110s linear infinite reverse, twinkle-near 3.4s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 300px 260px;
+  }
+}
+
+@keyframes twinkle-far {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+
+@keyframes twinkle-near {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cosmos-nebula {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(closest-side at 30% 30%, rgba(94, 74, 168, 0.25), transparent 70%),
+    radial-gradient(closest-side at 75% 70%, rgba(38, 82, 122, 0.22), transparent 70%);
+  filter: blur(46px);
+  transform: scale(1.4);
+  animation: nebula-move 70s ease-in-out infinite alternate;
+}
+
+@keyframes nebula-move {
+  from {
+    transform: translate3d(-5%, -3%, 0) scale(1.4);
+  }
+  to {
+    transform: translate3d(5%, 3%, 0) scale(1.55);
+  }
+}
+
+.cosmos::after {
+  content: '';
+  position: absolute;
+  top: 14%;
+  left: 55%;
+  width: 140px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(240, 223, 180, 0.9), transparent);
+  transform: rotate(16deg);
+  opacity: 0;
+  animation: shoot 9s ease-in-out infinite;
+}
+
+@keyframes shoot {
+  0%,
+  58% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(16deg);
+  }
+  60% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: translate(-150px, 46px) rotate(16deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmos-layer,
+  .cosmos-nebula,
+  .cosmos::after {
+    animation: none;
+  }
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 28px 24px 8px;
+}
+
+.header-brand {
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--gold-soft);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px 48px;
+}
+
+/* Intro */
+
+.intro {
+  text-align: center;
+  max-width: 640px;
+}
+
+.intro-title {
+  margin: 0 0 10px;
+  font-family: 'Cinzel', Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  letter-spacing: 0.06em;
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.intro-tagline {
+  margin: 0 0 12px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: var(--gold-soft);
+}
+
+.intro-sub {
+  margin: 0 0 40px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 34px 44px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(22, 27, 51, 0.85), rgba(16, 20, 42, 0.9));
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
+
+.mode:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 24px rgba(217, 181, 106, 0.18);
+}
+
+.mode-symbol {
+  font-size: 1.6rem;
+  color: var(--gold);
+}
+
+.mode-name {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+}
+
+.mode-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Choose */
+
+.choose {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-title {
+  margin: 0 0 6px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  letter-spacing: 0.1em;
+}
+
+.section-hint {
+  margin: 0 0 32px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.deck {
+  display: grid;
+  grid-template-columns: repeat(4, var(--card-w));
+  gap: clamp(10px, 3vw, 22px);
+  justify-content: center;
+}
+
+/* Flip card */
+
+.flip-card {
+  width: var(--card-w);
+  height: var(--card-h);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1200px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.flip-card.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.flip-back {
+  transform: rotateY(0deg);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 58%, rgba(217, 181, 106, 0.14) 58% 62%, transparent 62%),
+    linear-gradient(160deg, #171c36, #0d1124);
+  box-shadow: inset 0 0 0 6px rgba(22, 27, 51, 0.9), inset 0 0 0 7px rgba(217, 181, 106, 0.25);
+}
+
+.flip-back::before,
+.flip-back::after {
+  content: '✦';
+  position: absolute;
+  font-size: 0.7rem;
+  color: rgba(217, 181, 106, 0.45);
+}
+
+.flip-back::before {
+  top: 10px;
+  left: 12px;
+}
+
+.flip-back::after {
+  bottom: 10px;
+  right: 12px;
+}
+
+.flip-back-star {
+  font-size: 1.9rem;
+  color: var(--gold);
+  text-shadow: 0 0 18px rgba(217, 181, 106, 0.55);
+}
+
+.flip-front {
+  transform: rotateY(180deg);
+}
+
+/* Tarot card face */
+
+.tarot-face {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(165deg, #1c2240, #10142c);
+  box-shadow: inset 0 0 0 5px rgba(22, 27, 51, 0.9), inset 0 0 0 6px rgba(217, 181, 106, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.tarot-face[data-arcana='major'] {
+  background: linear-gradient(165deg, #222848, #121632);
+}
+
+.tarot-face-ornament {
+  font-size: 1.1rem;
+  color: var(--gold);
+}
+
+.tarot-face-number {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+.tarot-face-name {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(0.72rem, 1.1vw, 0.95rem);
+  line-height: 1.35;
+  color: var(--gold-soft);
+}
+
+.tarot-face-arcana {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Result */
+
+.result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 560px;
+  animation: rise 0.6s ease both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-eyebrow {
+  margin: 0 0 24px;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.result-card {
+  width: clamp(120px, 24vw, 168px);
+  height: calc(clamp(120px, 24vw, 168px) * 1.6);
+  animation: cardFloat 4s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.orientation-badge {
+  margin-top: 22px;
+  padding: 5px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  background: rgba(217, 181, 106, 0.08);
+}
+
+.result-name {
+  margin: 18px 0 8px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  letter-spacing: 0.04em;
+  color: var(--gold-soft);
+}
+
+.result-keywords {
+  margin: 0 0 22px;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+
+.result-meaning {
+  line-height: 1.75;
+  color: var(--text);
+  padding: 0 4px;
+}
+
+.result-general {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.result-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 12px 26px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold), #c49a52);
+  color: #1a1406;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(217, 181, 106, 0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--gold-soft);
+}
+
+/* Footer */
+
+.footer {
+  width: 100%;
+  padding: 20px 24px 36px;
+}
+
+.disclaimer {
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* Responsive */
+
+@media (max-width: 720px) {
+  .deck {
+    grid-template-columns: repeat(4, calc(var(--card-w) * 0.82));
+    gap: 10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .deck {
+    grid-template-columns: repeat(4, calc(var(--card-w) * 0.68));
+    gap: 8px;
+  }
+}
