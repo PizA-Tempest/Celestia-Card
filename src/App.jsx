@@ -9,6 +9,7 @@ import SpreadResult from './components/SpreadResult.jsx'
 import { LangContext } from './i18n.jsx'
 import { translations } from './translations.js'
 import { addHistoryEntry } from './utils/history.js'
+import { DECKS, DECK_STYLES, loadDeck, storeDeck } from './utils/decks.js'
 import { POSITION_3, POSITION_5 } from './utils/reading.js'
 
 function loadLang() {
@@ -27,15 +28,43 @@ function storeLang(lang) {
   }
 }
 
+function loadTheme() {
+  try {
+    return localStorage.getItem('celestia-theme') || 'dark'
+  } catch {
+    return 'dark'
+  }
+}
+
+function storeTheme(theme) {
+  try {
+    localStorage.setItem('celestia-theme', theme)
+  } catch {
+    // storage unavailable — ignore
+  }
+}
+
 export default function App() {
   const [phase, setPhase] = useState('intro')
   const [draw, setDraw] = useState(null)
   const [spread, setSpread] = useState(null)
   const [lang, setLangState] = useState(loadLang)
+  const [theme, setThemeState] = useState(loadTheme)
+  const [deck, setDeckState] = useState(loadDeck)
 
   const setLang = (next) => {
     setLangState(next)
     storeLang(next)
+  }
+
+  const setTheme = (next) => {
+    setThemeState(next)
+    storeTheme(next)
+  }
+
+  const setDeck = (next) => {
+    setDeckState(next)
+    storeDeck(next)
   }
 
   const t = (key) => translations[lang][key] ?? translations.en[key] ?? key
@@ -43,6 +72,10 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = lang
   }, [lang])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
 
   const startDailyCard = () => setPhase('choose')
   const startThreeCard = () => setPhase('choose3')
@@ -87,7 +120,7 @@ export default function App() {
 
   return (
     <LangContext.Provider value={{ lang, setLang, t }}>
-      <div className="app">
+      <div className="app" style={DECK_STYLES[deck]}>
         <div className="cosmos" aria-hidden="true">
           <div className="cosmos-layer cosmos-far" />
           <div className="cosmos-layer cosmos-near" />
@@ -96,13 +129,23 @@ export default function App() {
 
         <header className="header">
           <span className="header-brand">✦ Celestia Card</span>
-          <button
-            type="button"
-            className="lang-toggle"
-            onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
-          >
-            {lang === 'th' ? 'EN' : 'ไทย'}
-          </button>
+          <div className="header-actions">
+            <button
+              type="button"
+              className="lang-toggle"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              {theme === 'dark' ? '☀' : '☾'}
+            </button>
+            <button
+              type="button"
+              className="lang-toggle"
+              onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
+            >
+              {lang === 'th' ? 'EN' : 'ไทย'}
+            </button>
+          </div>
         </header>
 
         <main className="main">
@@ -142,6 +185,25 @@ export default function App() {
                   <span className="mode-name">{t('mode.history.name')}</span>
                   <span className="mode-desc">{t('mode.history.desc')}</span>
                 </button>
+              </div>
+              <div className="deck-picker">
+                <span className="deck-picker-label">{t('deck.label')}</span>
+                <div className="deck-options">
+                  {DECKS.map((d) => (
+                    <button
+                      type="button"
+                      key={d.id}
+                      className={`deck-option${deck === d.id ? ' active' : ''}`}
+                      onClick={() => setDeck(d.id)}
+                    >
+                      <span
+                        className="deck-dot"
+                        style={{ background: d.accent }}
+                      />
+                      {t(d.nameKey)}
+                    </button>
+                  ))}
+                </div>
               </div>
             </section>
           )}

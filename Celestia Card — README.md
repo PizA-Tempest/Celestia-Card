@@ -449,9 +449,9 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Favorite Cards
 - [x] Share Reading
 - [x] Switch Laguage English to Thai/Thai to English
-- [ ] Dark / Light Theme
+- [x] Dark / Light Theme
 - [ ] AI-generated combined interpretation
-- [ ] Multiple Tarot Decks
+- [x] Multiple Tarot Decks
 - [ ] PWA / Installable Web App
 
 ---

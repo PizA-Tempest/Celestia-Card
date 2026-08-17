@@ -3,8 +3,8 @@
 ## Current state
 
 - React + Vite (JavaScript) app. Product requirements live in **`Celestia Card — README.md`** (note the em-dash); it is a spec, not a description of current code.
-- Currently implemented: scaffold, full 78-card deck in `src/data/tarot.json`, and four reading modes — **Daily Card** (choose → flip → interpret), **Three Card Reading**, **Five Card Reading** (Past/Present/Future and Situation/Challenge/Energy/Advice/Outcome spreads via a shared generic `CardSpread`/`SpreadResult`, each with per-position meanings and a combined interpretation), and **Lucky Draw** (single press-to-draw flip) — plus a searchable/filterable **Tarot Encyclopedia** (with favorites), a localStorage-backed **Reading History** (view/reopen past readings), **Share** buttons on results (Web Share API + clipboard fallback), and an **English/Thai language toggle** (Thai default), all with upright/reversed meanings, animated cosmos background, and the disclaimer footer.
-- Not yet built (all README "Future Features"): theming, PWA.
+- Currently implemented: scaffold, full 78-card deck in `src/data/tarot.json`, and four reading modes — **Daily Card** (choose → flip → interpret), **Three Card Reading**, **Five Card Reading** (Past/Present/Future and Situation/Challenge/Energy/Advice/Outcome spreads via a shared generic `CardSpread`/`SpreadResult`, each with per-position meanings and a combined interpretation), and **Lucky Draw** (single press-to-draw flip) — plus a searchable/filterable **Tarot Encyclopedia** (with favorites), a localStorage-backed **Reading History** (view/reopen past readings), **Share** buttons on results (Web Share API + clipboard fallback), an **English/Thai language toggle** (Thai default), a **Dark/Light theme toggle** (persisted in `localStorage` `celestia-theme`), and **multiple visual deck palettes** (Celestial/Ember/Emerald/Moonlight, persisted in `localStorage` `celestia-deck`), all with upright/reversed meanings, animated cosmos background, and the disclaimer footer.
+- Not yet built (all README "Future Features"): PWA.
 
 ## Commands
 
@@ -20,12 +20,13 @@
 - `src/i18n.jsx` — `LangContext`/`useLang` (`lang`, `setLang`, `t`) and `localizeCard(card, lang)`.
 - `src/translations.js` — UI strings for `en`/`th` (flat dot-key map, e.g. `mode.daily.name`).
 - `src/utils/reading.js` — `drawCards`, `randomOrientation`, `suitGlyph`, `suitLabel`, `arcanaLabel`, `combineReading` (takes a `lang` param), `POSITION_3`/`POSITION_5`. Deck import and reading logic live here.
+- `src/utils/decks.js` — `DECKS`/`DECK_STYLES` (visual card palettes applied as CSS custom props on the app root, persisted in `localStorage` `celestia-deck`), `loadDeck`/`storeDeck`.
 - `src/utils/history.js` — localStorage-backed history (`loadHistory`, `addHistoryEntry`, `clearHistory`, `MODE_LABELS`).
 - `src/utils/favorites.js` — localStorage-backed favorites (`loadFavorites`, `toggleFavorite`).
 - `src/utils/share.js` — `buildShareText`/`shareText` (Web Share API with clipboard fallback).
 - `src/components/` — `TarotCard` (card face presentation), `CardReveal` (3D flip), `CardDeck` (face-down selection grid), `ReadingResult` (interpretation), `CardSpread` (generic multi-slot spread picker), `SpreadResult` (per-position + combined reading), `LuckyDraw` (single press-to-draw flip), `Encyclopedia` (search/filter grid + card detail view, favorite toggle + Favorites filter), `HistoryView` (localStorage history list + re-open past readings).
 - `src/App.jsx` — phase state machine (`intro` → `choose` → `result`). Add new reading modes by extending these phases.
-- All styling is in `src/index.css` (no Tailwind). Dark celestial theme, gold accent (`--gold`), starfield background, responsive card grid.
+- All styling is in `src/index.css` (no Tailwind). Dark celestial theme by default with a light variant switched via `html[data-theme='light']` (set by the header toggle, persisted in `localStorage` `celestia-theme`). Colors are CSS custom properties on `:root` — keep theme surfaces using variables (`--panel`, `--face-bg-*`, `--input-bg`, etc.), not hardcoded colors.
 
 ## Gotchas
 
