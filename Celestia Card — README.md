@@ -443,11 +443,12 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Daily Card
 - [x] Three Card Reading
 - [x] Five Card Reading
-- [ ] Lucky Draw
+- [x] Lucky Draw
 - [ ] Tarot Card Encyclopedia
 - [ ] Reading History
 - [ ] Favorite Cards
 - [ ] Share Reading
+- [ ] Switch Laguage Thai to English
 - [ ] Dark / Light Theme
 - [ ] AI-generated combined interpretation
 - [ ] Multiple Tarot Decks

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import CardDeck from './components/CardDeck.jsx'
 import CardSpread from './components/CardSpread.jsx'
+import LuckyDraw from './components/LuckyDraw.jsx'
 import ReadingResult from './components/ReadingResult.jsx'
 import SpreadResult from './components/SpreadResult.jsx'
 import { POSITION_3, POSITION_5 } from './utils/reading.js'
@@ -13,10 +14,16 @@ export default function App() {
   const startDailyCard = () => setPhase('choose')
   const startThreeCard = () => setPhase('choose3')
   const startFiveCard = () => setPhase('choose5')
+  const startLuckyDraw = () => setPhase('lucky')
 
   const handlePick = (result) => {
     setDraw(result)
     setPhase('result')
+  }
+
+  const handleLuckyDraw = (result) => {
+    setDraw(result)
+    setPhase('resultLucky')
   }
 
   const handleSpreadComplete = (resultPhase) => (draws) => {
@@ -78,6 +85,11 @@ export default function App() {
                   Situation · Challenge · Energy · Advice · Outcome
                 </span>
               </button>
+              <button type="button" className="mode" onClick={startLuckyDraw}>
+                <span className="mode-symbol">❖</span>
+                <span className="mode-name">Lucky Draw</span>
+                <span className="mode-desc">A completely open reading</span>
+              </button>
             </div>
           </section>
         )}
@@ -117,10 +129,26 @@ export default function App() {
           </section>
         )}
 
+        {phase === 'lucky' && (
+          <section className="choose">
+            <h2 className="section-title">Lucky Draw</h2>
+            <LuckyDraw onComplete={handleLuckyDraw} />
+          </section>
+        )}
+
         {phase === 'result' && draw && (
           <ReadingResult
             draw={draw}
             onDrawAgain={drawAgain}
+            onNewReading={newReading}
+          />
+        )}
+
+        {phase === 'resultLucky' && draw && (
+          <ReadingResult
+            title="Lucky Draw"
+            draw={draw}
+            onDrawAgain={() => setPhase('lucky')}
             onNewReading={newReading}
           />
         )}

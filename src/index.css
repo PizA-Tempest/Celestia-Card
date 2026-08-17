@@ -641,6 +641,20 @@ body {
   color: var(--gold-soft);
 }
 
+/* Lucky draw */
+
+.lucky {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.lucky-card {
+  width: clamp(140px, 26vw, 190px);
+  height: calc(clamp(140px, 26vw, 190px) * 1.6);
+}
+
 /* Footer */
 
 .footer {

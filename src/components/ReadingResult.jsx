@@ -1,12 +1,17 @@
 import TarotCard from './TarotCard.jsx'
 
-export default function ReadingResult({ draw, onDrawAgain, onNewReading }) {
+export default function ReadingResult({
+  title = 'Daily Card',
+  draw,
+  onDrawAgain,
+  onNewReading,
+}) {
   const { card, orientation } = draw
   const meaning = orientation === 'upright' ? card.upright : card.reversed
 
   return (
     <section className="result" aria-live="polite">
-      <p className="result-eyebrow">Daily Card</p>
+      <p className="result-eyebrow">{title}</p>
       <div className="result-card">
         <TarotCard card={card} />
       </div>
