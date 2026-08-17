@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import CardDeck from './components/CardDeck.jsx'
 import CardSpread from './components/CardSpread.jsx'
+import Encyclopedia from './components/Encyclopedia.jsx'
 import LuckyDraw from './components/LuckyDraw.jsx'
 import ReadingResult from './components/ReadingResult.jsx'
 import SpreadResult from './components/SpreadResult.jsx'
@@ -15,6 +16,7 @@ export default function App() {
   const startThreeCard = () => setPhase('choose3')
   const startFiveCard = () => setPhase('choose5')
   const startLuckyDraw = () => setPhase('lucky')
+  const startEncyclopedia = () => setPhase('ency')
 
   const handlePick = (result) => {
     setDraw(result)
@@ -90,6 +92,11 @@ export default function App() {
                 <span className="mode-name">Lucky Draw</span>
                 <span className="mode-desc">A completely open reading</span>
               </button>
+              <button type="button" className="mode" onClick={startEncyclopedia}>
+                <span className="mode-symbol">◈</span>
+                <span className="mode-name">Tarot Encyclopedia</span>
+                <span className="mode-desc">Browse all 78 cards and their meanings</span>
+              </button>
             </div>
           </section>
         )}
@@ -135,6 +142,8 @@ export default function App() {
             <LuckyDraw onComplete={handleLuckyDraw} />
           </section>
         )}
+
+        {phase === 'ency' && <Encyclopedia onBack={newReading} />}
 
         {phase === 'result' && draw && (
           <ReadingResult

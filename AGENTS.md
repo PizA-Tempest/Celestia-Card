@@ -3,8 +3,8 @@
 ## Current state
 
 - React + Vite (JavaScript) app. Product requirements live in **`Celestia Card — README.md`** (note the em-dash); it is a spec, not a description of current code.
-- Currently implemented: scaffold, full 78-card deck in `src/data/tarot.json`, and four reading modes — **Daily Card** (choose → flip → interpret), **Three Card Reading**, **Five Card Reading** (Past/Present/Future and Situation/Challenge/Energy/Advice/Outcome spreads via a shared generic `CardSpread`/`SpreadResult`, each with per-position meanings and a combined interpretation), and **Lucky Draw** (single press-to-draw flip) — with upright/reversed meanings, animated cosmos background, and the disclaimer footer.
-- Not yet built (all README "Future Features"): Tarot encyclopedia, reading history, favorites, sharing, theming, PWA.
+- Currently implemented: scaffold, full 78-card deck in `src/data/tarot.json`, and four reading modes — **Daily Card** (choose → flip → interpret), **Three Card Reading**, **Five Card Reading** (Past/Present/Future and Situation/Challenge/Energy/Advice/Outcome spreads via a shared generic `CardSpread`/`SpreadResult`, each with per-position meanings and a combined interpretation), and **Lucky Draw** (single press-to-draw flip) — plus a searchable/filterable **Tarot Encyclopedia**, all with upright/reversed meanings, animated cosmos background, and the disclaimer footer.
+- Not yet built (all README "Future Features"): reading history, favorites, sharing, theming, PWA.
 
 ## Commands
 
@@ -17,7 +17,7 @@
 
 - `src/data/tarot.json` — 78-card deck. Each card has `id`, `name`, `number`, `arcana` (`major`/`minor`), `suit`, `element`, `keywords`, `upright`, `reversed`, `general`. Add fields (love/career/finance/advice/symbolism) here for the encyclopedia feature.
 - `src/utils/reading.js` — `drawCards`, `randomOrientation`, `suitGlyph`, `suitLabel`, `arcanaLabel`. Deck import and reading logic live here.
-- `src/components/` — `TarotCard` (card face presentation), `CardReveal` (3D flip), `CardDeck` (face-down selection grid), `ReadingResult` (interpretation), `CardSpread` (generic multi-slot spread picker), `SpreadResult` (per-position + combined reading), `LuckyDraw` (single press-to-draw flip).
+- `src/components/` — `TarotCard` (card face presentation), `CardReveal` (3D flip), `CardDeck` (face-down selection grid), `ReadingResult` (interpretation), `CardSpread` (generic multi-slot spread picker), `SpreadResult` (per-position + combined reading), `LuckyDraw` (single press-to-draw flip), `Encyclopedia` (search/filter grid + card detail view).
 - `src/App.jsx` — phase state machine (`intro` → `choose` → `result`). Add new reading modes by extending these phases.
 - All styling is in `src/index.css` (no Tailwind). Dark celestial theme, gold accent (`--gold`), starfield background, responsive card grid.
 

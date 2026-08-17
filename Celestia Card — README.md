@@ -444,7 +444,7 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Three Card Reading
 - [x] Five Card Reading
 - [x] Lucky Draw
-- [ ] Tarot Card Encyclopedia
+- [x] Tarot Card Encyclopedia
 - [ ] Reading History
 - [ ] Favorite Cards
 - [ ] Share Reading
