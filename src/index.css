@@ -176,10 +176,31 @@ body {
 }
 
 .header {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 28px 24px 8px;
+}
+
+.lang-toggle {
+  position: absolute;
+  right: 24px;
+  top: 22px;
+  padding: 7px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(22, 27, 51, 0.6);
+  color: var(--gold-soft);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.lang-toggle:hover {
+  border-color: var(--gold);
+  background: rgba(217, 181, 106, 0.12);
 }
 
 .header-brand {

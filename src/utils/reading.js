@@ -37,7 +37,8 @@ export const POSITION_5 = [
   { key: 'outcome', label: 'Possible Outcome' },
 ]
 
-export function combineReading(draws, positions) {
+export function combineReading(draws, positions, lang = 'en') {
+  const th = lang === 'th'
   const brief = (d) =>
     d.orientation === 'upright' ? d.card.upright : d.card.reversed
   const parts = draws.map(
@@ -46,5 +47,7 @@ export function combineReading(draws, positions) {
   const flow = draws
     .map((d) => d.card.keywords[0].toLowerCase())
     .join(' → ')
-  return `${parts.join(' ')} As one thread, the reading flows through ${flow} — hold the full picture, not just a single card.`
+  return th
+    ? `${parts.join(' ')} เมื่ออ่านรวมกันเป็นเรื่องเดียวกัน กระแสของไพ่ไหลผ่าน ${flow} — จงมองภาพรวมทั้งหมด ไม่ใช่เพียงใบใดใบหนึ่ง`
+    : `${parts.join(' ')} As one thread, the reading flows through ${flow} — hold the full picture, not just a single card.`
 }

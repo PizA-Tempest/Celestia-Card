@@ -1,19 +1,29 @@
 import { useState } from 'react'
 import TarotCard from './TarotCard.jsx'
-import { deck, suitLabel } from '../utils/reading.js'
+import { useLang, localizeCard } from '../i18n.jsx'
+import tarotTh from '../data/tarot-th.json'
+import { deck } from '../utils/reading.js'
 import { loadFavorites, toggleFavorite } from '../utils/favorites.js'
 
-const FILTERS = [
-  { key: 'all', label: 'All' },
-  { key: 'favorites', label: 'Favorites' },
-  { key: 'major', label: 'Major Arcana' },
-  { key: 'wands', label: 'Wands' },
-  { key: 'cups', label: 'Cups' },
-  { key: 'swords', label: 'Swords' },
-  { key: 'pentacles', label: 'Pentacles' },
+const FILTER_KEYS = [
+  'all',
+  'favorites',
+  'major',
+  'wands',
+  'cups',
+  'swords',
+  'pentacles',
 ]
 
+function searchText(card) {
+  const th = tarotTh[card.id]
+  const parts = [card.name, ...card.keywords]
+  if (th) parts.push(th.name, ...th.keywords)
+  return parts.join(' ').toLowerCase()
+}
+
 export default function Encyclopedia({ onBack }) {
+  const { lang, t } = useLang()
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState('all')
   const [selected, setSelected] = useState(null)
@@ -28,18 +38,20 @@ export default function Encyclopedia({ onBack }) {
     if (filter === 'favorites' && !favorites.includes(card.id)) return false
     const q = query.trim().toLowerCase()
     if (!q) return true
-    return (
-      card.name.toLowerCase().includes(q) ||
-      card.keywords.some((k) => k.toLowerCase().includes(q))
-    )
+    return searchText(card).includes(q)
   })
 
   if (selected) {
+    const c = localizeCard(selected, lang)
     const fav = favorites.includes(selected.id)
     const handleFav = () => setFavorites(toggleFavorite(selected.id))
-    const meta = selected.arcana === 'major'
-      ? `Major Arcana · ${selected.element}`
-      : `${suitLabel(selected.suit)} · ${selected.element}`
+    const meta = [
+      c.number,
+      c.arcana === 'major'
+        ? t('arcana.major')
+        : t('suit.' + c.suit),
+      t('element.' + c.element.toLowerCase()),
+    ].join(' · ')
     return (
       <section className="ency">
         <div className="ency-detail-top">
@@ -48,14 +60,14 @@ export default function Encyclopedia({ onBack }) {
             className="btn btn-ghost ency-back"
             onClick={() => setSelected(null)}
           >
-            ← Back to all cards
+            {t('ency.backAll')}
           </button>
           <button
             type="button"
             className={`filter-btn${fav ? ' active fav-btn-active' : ''}`}
             onClick={handleFav}
           >
-            {fav ? '★ Favorited' : '☆ Add to favorites'}
+            {fav ? t('ency.favAdded') : t('ency.favAdd')}
           </button>
         </div>
         <div className="ency-detail">
@@ -63,24 +75,20 @@ export default function Encyclopedia({ onBack }) {
             <TarotCard card={selected} />
           </div>
           <div className="ency-detail-info">
-            <h2 className="ency-detail-name">{selected.name}</h2>
-            <p className="ency-detail-meta">
-              {selected.number} · {meta}
-            </p>
-            <p className="ency-detail-keywords">
-              {selected.keywords.join(' · ')}
-            </p>
+            <h2 className="ency-detail-name">{c.name}</h2>
+            <p className="ency-detail-meta">{meta}</p>
+            <p className="ency-detail-keywords">{c.keywords.join(' · ')}</p>
             <div className="ency-meaning">
-              <h4>Upright</h4>
-              <p>{selected.upright}</p>
+              <h4>{t('meaning.upright')}</h4>
+              <p>{c.upright}</p>
             </div>
             <div className="ency-meaning">
-              <h4>Reversed</h4>
-              <p>{selected.reversed}</p>
+              <h4>{t('meaning.reversed')}</h4>
+              <p>{c.reversed}</p>
             </div>
             <div className="ency-meaning">
-              <h4>General</h4>
-              <p>{selected.general}</p>
+              <h4>{t('meaning.general')}</h4>
+              <p>{c.general}</p>
             </div>
           </div>
         </div>
@@ -94,26 +102,26 @@ export default function Encyclopedia({ onBack }) {
         <input
           type="search"
           className="ency-search"
-          placeholder="Search cards or keywords…"
+          placeholder={t('ency.placeholder')}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
         <div className="ency-filters">
-          {FILTERS.map((f) => (
+          {FILTER_KEYS.map((key) => (
             <button
               type="button"
-              key={f.key}
-              className={`filter-btn${filter === f.key ? ' active' : ''}`}
-              onClick={() => setFilter(f.key)}
+              key={key}
+              className={`filter-btn${filter === key ? ' active' : ''}`}
+              onClick={() => setFilter(key)}
             >
-              {f.label}
+              {t('filter.' + key)}
             </button>
           ))}
         </div>
       </div>
 
       {filtered.length === 0 ? (
-        <p className="ency-empty">No cards match your search.</p>
+        <p className="ency-empty">{t('ency.empty')}</p>
       ) : (
         <div className="ency-grid">
           {filtered.map((card) => (
@@ -131,7 +139,7 @@ export default function Encyclopedia({ onBack }) {
       )}
 
       <button type="button" className="btn btn-ghost ency-back" onClick={onBack}>
-        ← Back to readings
+        {t('ency.backReadings')}
       </button>
     </section>
   )

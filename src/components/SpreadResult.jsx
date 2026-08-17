@@ -1,23 +1,45 @@
+import { useState } from 'react'
 import TarotCard from './TarotCard.jsx'
+import { useLang, localizeCard } from '../i18n.jsx'
 import { combineReading } from '../utils/reading.js'
+import { buildShareText, shareText } from '../utils/share.js'
 
 export default function SpreadResult({
-  title,
+  titleKey,
   draws,
   positions,
   onAgain,
   onNewReading,
   actions = true,
 }) {
+  const { lang, t } = useLang()
   const isWide = positions.length > 4
+  const [shared, setShared] = useState(null)
+
+  const localizedDraws = draws.map((d) => ({
+    ...d,
+    card: localizeCard(d.card, lang),
+  }))
+  const localizedPositions = positions.map((p) => ({
+    ...p,
+    label: t('position.' + p.key),
+  }))
+
+  const handleShare = async () => {
+    const result = await shareText(
+      buildShareText(t(titleKey), localizedDraws, localizedPositions)
+    )
+    setShared(result === 'copied' ? t('result.copied') : null)
+    if (result === 'copied') setTimeout(() => setShared(null), 2500)
+  }
 
   return (
     <section className="result" aria-live="polite">
-      <p className="result-eyebrow">{title}</p>
+      <p className="result-eyebrow">{t(titleKey)}</p>
 
       <div className={`spread result-spread${isWide ? ' spread-5' : ''}`}>
-        {positions.map((pos, i) => {
-          const d = draws[i]
+        {localizedPositions.map((pos, i) => {
+          const d = localizedDraws[i]
           return (
             <div className="spread-slot" key={pos.key}>
               <span className="spread-label">{pos.label}</span>
@@ -25,7 +47,9 @@ export default function SpreadResult({
                 <TarotCard card={d.card} />
               </div>
               <span className={`orientation-badge ${d.orientation}`}>
-                {d.orientation}
+                {d.orientation === 'upright'
+                  ? t('orientation.upright')
+                  : t('orientation.reversed')}
               </span>
             </div>
           )
@@ -33,8 +57,8 @@ export default function SpreadResult({
       </div>
 
       <div className="spread-meanings">
-        {positions.map((pos, i) => {
-          const d = draws[i]
+        {localizedPositions.map((pos, i) => {
+          const d = localizedDraws[i]
           const meaning =
             d.orientation === 'upright' ? d.card.upright : d.card.reversed
           return (
@@ -50,17 +74,27 @@ export default function SpreadResult({
       </div>
 
       <div className="combined">
-        <h3 className="combined-title">The Whole Story</h3>
-        <p>{combineReading(draws, positions)}</p>
+        <h3 className="combined-title">{t('combined.title')}</h3>
+        <p>
+          {combineReading(localizedDraws, localizedPositions, lang)}
+        </p>
       </div>
 
       {actions && (
         <div className="result-actions">
           <button type="button" className="btn" onClick={onAgain}>
-            Draw Again
+            {t('result.drawAgain')}
           </button>
           <button type="button" className="btn btn-ghost" onClick={onNewReading}>
-            New Reading
+            {t('result.newReading')}
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={handleShare}
+            disabled={shared === t('result.copied')}
+          >
+            {shared || t('result.share')}
           </button>
         </div>
       )}

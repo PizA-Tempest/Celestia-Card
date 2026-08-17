@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import CardReveal from './CardReveal.jsx'
+import { useLang } from '../i18n.jsx'
 import { drawCards, randomOrientation } from '../utils/reading.js'
 
 export default function CardSpread({ positions, onComplete }) {
+  const { t } = useLang()
   const [draws, setDraws] = useState(Array(positions.length).fill(null))
   const isWide = positions.length > 4
 
@@ -24,7 +26,7 @@ export default function CardSpread({ positions, onComplete }) {
     >
       {positions.map((pos, i) => (
         <div className="spread-slot" key={pos.key}>
-          <span className="spread-label">{pos.label}</span>
+          <span className="spread-label">{t('position.' + pos.key)}</span>
           <CardReveal
             card={draws[i] ? draws[i].card : null}
             flipped={!!draws[i]}

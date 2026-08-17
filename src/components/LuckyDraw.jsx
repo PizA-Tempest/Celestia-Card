@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import CardReveal from './CardReveal.jsx'
+import { useLang } from '../i18n.jsx'
 import { drawCards, randomOrientation } from '../utils/reading.js'
 
 export default function LuckyDraw({ onComplete }) {
+  const { t } = useLang()
   const [entry, setEntry] = useState(null)
 
   const handleDraw = () => {
@@ -14,7 +16,7 @@ export default function LuckyDraw({ onComplete }) {
 
   return (
     <div className="lucky">
-      <p className="section-hint">A completely open reading — just draw.</p>
+      <p className="section-hint">{t('lucky.hint')}</p>
       <div className="lucky-card">
         <CardReveal
           card={entry ? entry.card : null}
@@ -28,7 +30,7 @@ export default function LuckyDraw({ onComplete }) {
         onClick={handleDraw}
         disabled={!!entry}
       >
-        {entry ? 'Drawing…' : 'Draw a Card'}
+        {entry ? t('lucky.drawing') : t('lucky.draw')}
       </button>
     </div>
   )

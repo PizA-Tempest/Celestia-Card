@@ -447,8 +447,8 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Tarot Card Encyclopedia
 - [x] Reading History
 - [x] Favorite Cards
-- [ ] Share Reading
-- [ ] Switch Laguage Thai to English
+- [x] Share Reading
+- [x] Switch Laguage English to Thai/Thai to English
 - [ ] Dark / Light Theme
 - [ ] AI-generated combined interpretation
 - [ ] Multiple Tarot Decks

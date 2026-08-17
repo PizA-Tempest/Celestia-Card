@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import ReadingResult from './ReadingResult.jsx'
 import SpreadResult from './SpreadResult.jsx'
-import {
-  loadHistory,
-  clearHistory,
-  MODE_LABELS,
-} from '../utils/history.js'
+import { useLang, localizeCard } from '../i18n.jsx'
+import { loadHistory, clearHistory } from '../utils/history.js'
 import { POSITION_3, POSITION_5 } from '../utils/reading.js'
 
 const MODE_POSITIONS = {
@@ -23,11 +20,12 @@ function formatDate(iso) {
 }
 
 export default function HistoryView({ onBack }) {
+  const { lang, t } = useLang()
   const [history, setHistory] = useState(loadHistory)
   const [selected, setSelected] = useState(null)
 
   const handleClear = () => {
-    if (window.confirm('Clear all saved readings?')) {
+    if (window.confirm(t('history.confirm'))) {
       clearHistory()
       setHistory([])
     }
@@ -35,7 +33,7 @@ export default function HistoryView({ onBack }) {
 
   if (selected) {
     const positions = MODE_POSITIONS[selected.mode]
-    const title = MODE_LABELS[selected.mode]
+    const titleKey = 'mode.' + selected.mode
     return (
       <section className="result-wrap">
         <button
@@ -43,18 +41,18 @@ export default function HistoryView({ onBack }) {
           className="btn btn-ghost"
           onClick={() => setSelected(null)}
         >
-          ← Back to history
+          ← {t('history.back')}
         </button>
         {positions ? (
           <SpreadResult
-            title={title}
+            titleKey={titleKey}
             draws={selected.draws}
             positions={positions}
             actions={false}
           />
         ) : (
           <ReadingResult
-            title={title}
+            titleKey={titleKey}
             draw={selected.draws[0]}
             actions={false}
           />
@@ -65,12 +63,10 @@ export default function HistoryView({ onBack }) {
 
   return (
     <section className="history">
-      <h2 className="section-title">Reading History</h2>
+      <h2 className="section-title">{t('history.title')}</h2>
 
       {history.length === 0 ? (
-        <p className="section-hint">
-          No readings yet — complete a reading and it will be saved here.
-        </p>
+        <p className="section-hint">{t('history.empty')}</p>
       ) : (
         <>
           <button
@@ -78,7 +74,7 @@ export default function HistoryView({ onBack }) {
             className="btn btn-ghost history-clear"
             onClick={handleClear}
           >
-            Clear history
+            {t('history.clear')}
           </button>
           <ul className="history-list">
             {history.map((entry) => (
@@ -89,11 +85,16 @@ export default function HistoryView({ onBack }) {
                   onClick={() => setSelected(entry)}
                 >
                   <span className="history-mode">
-                    {MODE_LABELS[entry.mode]}
+                    {t('mode.' + entry.mode)}
                   </span>
                   <span className="history-cards">
                     {entry.draws
-                      .map((d) => `${d.card.name} (${d.orientation})`)
+                      .map(
+                        (d) =>
+                          `${localizeCard(d.card, lang).name} (${t(
+                            'orientation.' + d.orientation
+                          )})`
+                      )
                       .join(' · ')}
                   </span>
                   <span className="history-date">
@@ -111,7 +112,7 @@ export default function HistoryView({ onBack }) {
         className="btn btn-ghost history-back"
         onClick={onBack}
       >
-        ← Back to readings
+        {t('history.back')}
       </button>
     </section>
   )
