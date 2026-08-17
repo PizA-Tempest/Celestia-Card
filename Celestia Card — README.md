@@ -442,7 +442,7 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Upright / reversed cards
 - [x] Daily Card
 - [x] Three Card Reading
-- [ ] Five Card Reading
+- [x] Five Card Reading
 - [ ] Lucky Draw
 - [ ] Tarot Card Encyclopedia
 - [ ] Reading History

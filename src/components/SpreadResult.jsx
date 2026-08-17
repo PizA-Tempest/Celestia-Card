@@ -1,13 +1,21 @@
 import TarotCard from './TarotCard.jsx'
-import { combineReading, POSITION_3 } from '../utils/reading.js'
+import { combineReading } from '../utils/reading.js'
 
-export default function ThreeCardResult({ draws, onAgain, onNewReading }) {
+export default function SpreadResult({
+  title,
+  draws,
+  positions,
+  onAgain,
+  onNewReading,
+}) {
+  const isWide = positions.length > 4
+
   return (
     <section className="result" aria-live="polite">
-      <p className="result-eyebrow">Three Card Reading</p>
+      <p className="result-eyebrow">{title}</p>
 
-      <div className="spread result-spread">
-        {POSITION_3.map((pos, i) => {
+      <div className={`spread result-spread${isWide ? ' spread-5' : ''}`}>
+        {positions.map((pos, i) => {
           const d = draws[i]
           return (
             <div className="spread-slot" key={pos.key}>
@@ -24,7 +32,7 @@ export default function ThreeCardResult({ draws, onAgain, onNewReading }) {
       </div>
 
       <div className="spread-meanings">
-        {POSITION_3.map((pos, i) => {
+        {positions.map((pos, i) => {
           const d = draws[i]
           const meaning =
             d.orientation === 'upright' ? d.card.upright : d.card.reversed
@@ -42,7 +50,7 @@ export default function ThreeCardResult({ draws, onAgain, onNewReading }) {
 
       <div className="combined">
         <h3 className="combined-title">The Whole Story</h3>
-        <p>{combineReading(draws)}</p>
+        <p>{combineReading(draws, positions)}</p>
       </div>
 
       <div className="result-actions">

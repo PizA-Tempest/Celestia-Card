@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import CardReveal from './CardReveal.jsx'
-import { drawCards, randomOrientation, POSITION_3 } from '../utils/reading.js'
+import { drawCards, randomOrientation } from '../utils/reading.js'
 
-export default function ThreeCardSpread({ onComplete }) {
-  const [draws, setDraws] = useState([null, null, null])
+export default function CardSpread({ positions, onComplete }) {
+  const [draws, setDraws] = useState(Array(positions.length).fill(null))
+  const isWide = positions.length > 4
 
   const handlePick = (index) => {
     if (draws[index]) return
@@ -16,8 +17,12 @@ export default function ThreeCardSpread({ onComplete }) {
   }
 
   return (
-    <div className="spread" role="group" aria-label="Three card spread">
-      {POSITION_3.map((pos, i) => (
+    <div
+      className={`spread${isWide ? ' spread-5' : ''}`}
+      role="group"
+      aria-label="Card spread"
+    >
+      {positions.map((pos, i) => (
         <div className="spread-slot" key={pos.key}>
           <span className="spread-label">{pos.label}</span>
           <CardReveal

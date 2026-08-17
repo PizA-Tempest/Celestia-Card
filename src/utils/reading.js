@@ -29,9 +29,22 @@ export const POSITION_3 = [
   { key: 'future', label: 'Future' },
 ]
 
-export function combineReading(draws) {
-  const [past, present, future] = draws
+export const POSITION_5 = [
+  { key: 'situation', label: 'Current Situation' },
+  { key: 'challenge', label: 'Challenge' },
+  { key: 'energy', label: 'Main Energy' },
+  { key: 'advice', label: 'Advice' },
+  { key: 'outcome', label: 'Possible Outcome' },
+]
+
+export function combineReading(draws, positions) {
   const brief = (d) =>
     d.orientation === 'upright' ? d.card.upright : d.card.reversed
-  return `Your Past is shaped by ${past.card.name} — ${brief(past)}. In the Present, ${present.card.name} carries ${brief(present)}. Looking ahead, ${future.card.name} promises ${brief(future)}. Read as one story, the momentum of your past flows into the choices of today and opens the way for what is coming.`
+  const parts = draws.map(
+    (d, i) => `${positions[i].label} · ${d.card.name} — ${brief(d)}`
+  )
+  const flow = draws
+    .map((d) => d.card.keywords[0].toLowerCase())
+    .join(' → ')
+  return `${parts.join(' ')} As one thread, the reading flows through ${flow} — hold the full picture, not just a single card.`
 }

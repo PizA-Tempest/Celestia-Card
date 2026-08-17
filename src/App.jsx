@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import CardDeck from './components/CardDeck.jsx'
+import CardSpread from './components/CardSpread.jsx'
 import ReadingResult from './components/ReadingResult.jsx'
-import ThreeCardSpread from './components/ThreeCardSpread.jsx'
-import ThreeCardResult from './components/ThreeCardResult.jsx'
+import SpreadResult from './components/SpreadResult.jsx'
+import { POSITION_3, POSITION_5 } from './utils/reading.js'
 
 export default function App() {
   const [phase, setPhase] = useState('intro')
@@ -11,15 +12,16 @@ export default function App() {
 
   const startDailyCard = () => setPhase('choose')
   const startThreeCard = () => setPhase('choose3')
+  const startFiveCard = () => setPhase('choose5')
 
   const handlePick = (result) => {
     setDraw(result)
     setPhase('result')
   }
 
-  const handleSpreadComplete = (draws) => {
+  const handleSpreadComplete = (resultPhase) => (draws) => {
     setSpread(draws)
-    setPhase('result3')
+    setPhase(resultPhase)
   }
 
   const drawAgain = () => {
@@ -27,9 +29,9 @@ export default function App() {
     setPhase('choose')
   }
 
-  const spreadAgain = () => {
+  const spreadAgain = (choosePhase) => {
     setSpread(null)
-    setPhase('choose3')
+    setPhase(choosePhase)
   }
 
   const newReading = () => {
@@ -69,6 +71,13 @@ export default function App() {
                 <span className="mode-name">Three Card Reading</span>
                 <span className="mode-desc">Past · Present · Future</span>
               </button>
+              <button type="button" className="mode" onClick={startFiveCard}>
+                <span className="mode-symbol">✧</span>
+                <span className="mode-name">Five Card Reading</span>
+                <span className="mode-desc">
+                  Situation · Challenge · Energy · Advice · Outcome
+                </span>
+              </button>
             </div>
           </section>
         )}
@@ -87,7 +96,24 @@ export default function App() {
             <p className="section-hint">
               Reveal each card — Past, Present, Future.
             </p>
-            <ThreeCardSpread onComplete={handleSpreadComplete} />
+            <CardSpread
+              positions={POSITION_3}
+              onComplete={handleSpreadComplete('result3')}
+            />
+          </section>
+        )}
+
+        {phase === 'choose5' && (
+          <section className="choose">
+            <h2 className="section-title">Five Card Reading</h2>
+            <p className="section-hint">
+              Reveal each card — Current Situation, Challenge, Main Energy,
+              Advice, Possible Outcome.
+            </p>
+            <CardSpread
+              positions={POSITION_5}
+              onComplete={handleSpreadComplete('result5')}
+            />
           </section>
         )}
 
@@ -100,9 +126,21 @@ export default function App() {
         )}
 
         {phase === 'result3' && spread && (
-          <ThreeCardResult
+          <SpreadResult
+            title="Three Card Reading"
             draws={spread}
-            onAgain={spreadAgain}
+            positions={POSITION_3}
+            onAgain={() => spreadAgain('choose3')}
+            onNewReading={newReading}
+          />
+        )}
+
+        {phase === 'result5' && spread && (
+          <SpreadResult
+            title="Five Card Reading"
+            draws={spread}
+            positions={POSITION_5}
+            onAgain={() => spreadAgain('choose5')}
             onNewReading={newReading}
           />
         )}

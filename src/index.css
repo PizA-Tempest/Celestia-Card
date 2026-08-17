@@ -543,6 +543,17 @@ body {
   color: var(--gold);
 }
 
+.spread-5 {
+  --card-w: clamp(104px, 15vw, 148px);
+  --card-h: calc(var(--card-w) * 1.6);
+  max-width: 100%;
+}
+
+.spread-5 .spread-card {
+  width: clamp(104px, 15vw, 148px);
+  height: calc(clamp(104px, 15vw, 148px) * 1.6);
+}
+
 .result-spread {
   margin-bottom: 34px;
 }
@@ -554,7 +565,7 @@ body {
 
 .spread-meanings {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: clamp(12px, 3vw, 24px);
   width: 100%;
   margin: 30px 0 8px;
