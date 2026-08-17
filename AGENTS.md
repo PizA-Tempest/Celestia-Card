@@ -18,7 +18,8 @@
 - `src/data/tarot.json` — 78-card deck. Each card has `id`, `name`, `number`, `arcana` (`major`/`minor`), `suit`, `element`, `keywords`, `upright`, `reversed`, `general`. Add fields (love/career/finance/advice/symbolism) here for the encyclopedia feature.
 - `src/utils/reading.js` — `drawCards`, `randomOrientation`, `suitGlyph`, `suitLabel`, `arcanaLabel`, `combineReading`, `POSITION_3`/`POSITION_5`. Deck import and reading logic live here.
 - `src/utils/history.js` — localStorage-backed history (`loadHistory`, `addHistoryEntry`, `clearHistory`, `MODE_LABELS`).
-- `src/components/` — `TarotCard` (card face presentation), `CardReveal` (3D flip), `CardDeck` (face-down selection grid), `ReadingResult` (interpretation), `CardSpread` (generic multi-slot spread picker), `SpreadResult` (per-position + combined reading), `LuckyDraw` (single press-to-draw flip), `Encyclopedia` (search/filter grid + card detail view), `HistoryView` (localStorage history list + re-open past readings).
+- `src/utils/favorites.js` — localStorage-backed favorites (`loadFavorites`, `toggleFavorite`).
+- `src/components/` — `TarotCard` (card face presentation), `CardReveal` (3D flip), `CardDeck` (face-down selection grid), `ReadingResult` (interpretation), `CardSpread` (generic multi-slot spread picker), `SpreadResult` (per-position + combined reading), `LuckyDraw` (single press-to-draw flip), `Encyclopedia` (search/filter grid + card detail view, favorite toggle + Favorites filter), `HistoryView` (localStorage history list + re-open past readings).
 - `src/App.jsx` — phase state machine (`intro` → `choose` → `result`). Add new reading modes by extending these phases.
 - All styling is in `src/index.css` (no Tailwind). Dark celestial theme, gold accent (`--gold`), starfield background, responsive card grid.
 

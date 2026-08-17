@@ -446,7 +446,7 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Lucky Draw
 - [x] Tarot Card Encyclopedia
 - [x] Reading History
-- [ ] Favorite Cards
+- [x] Favorite Cards
 - [ ] Share Reading
 - [ ] Switch Laguage Thai to English
 - [ ] Dark / Light Theme

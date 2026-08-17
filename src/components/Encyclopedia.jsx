@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import TarotCard from './TarotCard.jsx'
 import { deck, suitLabel } from '../utils/reading.js'
+import { loadFavorites, toggleFavorite } from '../utils/favorites.js'
 
 const FILTERS = [
   { key: 'all', label: 'All' },
+  { key: 'favorites', label: 'Favorites' },
   { key: 'major', label: 'Major Arcana' },
   { key: 'wands', label: 'Wands' },
   { key: 'cups', label: 'Cups' },
@@ -15,12 +17,15 @@ export default function Encyclopedia({ onBack }) {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState('all')
   const [selected, setSelected] = useState(null)
+  const [favorites, setFavorites] = useState(loadFavorites)
 
   const filtered = deck.filter((card) => {
     const inArcana =
       filter === 'all' ||
+      filter === 'favorites' ||
       (filter === 'major' ? card.arcana === 'major' : card.suit === filter)
     if (!inArcana) return false
+    if (filter === 'favorites' && !favorites.includes(card.id)) return false
     const q = query.trim().toLowerCase()
     if (!q) return true
     return (
@@ -30,18 +35,29 @@ export default function Encyclopedia({ onBack }) {
   })
 
   if (selected) {
+    const fav = favorites.includes(selected.id)
+    const handleFav = () => setFavorites(toggleFavorite(selected.id))
     const meta = selected.arcana === 'major'
       ? `Major Arcana · ${selected.element}`
       : `${suitLabel(selected.suit)} · ${selected.element}`
     return (
       <section className="ency">
-        <button
-          type="button"
-          className="btn btn-ghost ency-back"
-          onClick={() => setSelected(null)}
-        >
-          ← Back to all cards
-        </button>
+        <div className="ency-detail-top">
+          <button
+            type="button"
+            className="btn btn-ghost ency-back"
+            onClick={() => setSelected(null)}
+          >
+            ← Back to all cards
+          </button>
+          <button
+            type="button"
+            className={`filter-btn${fav ? ' active fav-btn-active' : ''}`}
+            onClick={handleFav}
+          >
+            {fav ? '★ Favorited' : '☆ Add to favorites'}
+          </button>
+        </div>
         <div className="ency-detail">
           <div className="ency-detail-card">
             <TarotCard card={selected} />
