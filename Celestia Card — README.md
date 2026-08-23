@@ -437,7 +437,7 @@ The application should not be used as the sole basis for medical, financial, leg
 # 🚀 Future Features
 
 - [x] Complete 78-card Tarot database
-- [ ] Real Tarot card artwork
+- [x] Real Tarot card artwork
 - [x] Card flip animation
 - [x] Upright / reversed cards
 - [x] Daily Card
@@ -450,7 +450,6 @@ The application should not be used as the sole basis for medical, financial, leg
 - [x] Share Reading
 - [x] Switch Laguage English to Thai/Thai to English
 - [x] Dark / Light Theme
-- [ ] AI-generated combined interpretation
 - [x] Multiple Tarot Decks
 - [ ] PWA / Installable Web App
 
