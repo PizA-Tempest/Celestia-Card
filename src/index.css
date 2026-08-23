@@ -1099,16 +1099,42 @@ html[data-theme='light'] .cosmos {
 
 /* Responsive */
 
+@media (max-width: 1024px) {
+  :root {
+    --card-w: clamp(110px, 20vw, 150px);
+  }
+}
+
 @media (max-width: 720px) {
+  :root {
+    --card-w: clamp(100px, 19vw, 138px);
+  }
   .deck {
-    grid-template-columns: repeat(4, calc(var(--card-w) * 0.82));
     gap: 10px;
   }
 }
 
 @media (max-width: 520px) {
+  :root {
+    --card-w: clamp(64px, 19.5vw, 96px);
+  }
   .deck {
-    grid-template-columns: repeat(4, calc(var(--card-w) * 0.68));
     gap: 8px;
+  }
+  .header {
+    padding: 22px 14px 8px;
+  }
+  .header-brand {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+  }
+  .header-actions {
+    right: 12px;
+    top: 16px;
+    gap: 6px;
+  }
+  .lang-toggle {
+    padding: 6px 12px;
+    font-size: 0.72rem;
   }
 }

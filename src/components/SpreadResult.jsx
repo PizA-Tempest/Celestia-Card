@@ -27,7 +27,7 @@ export default function SpreadResult({
 
   const handleShare = async () => {
     const result = await shareText(
-      buildShareText(t(titleKey), localizedDraws, localizedPositions)
+      buildShareText(t(titleKey + '.name'), localizedDraws, localizedPositions)
     )
     setShared(result === 'copied' ? t('result.copied') : null)
     if (result === 'copied') setTimeout(() => setShared(null), 2500)
@@ -35,7 +35,7 @@ export default function SpreadResult({
 
   return (
     <section className="result" aria-live="polite">
-      <p className="result-eyebrow">{t(titleKey)}</p>
+      <p className="result-eyebrow">{t(titleKey + '.name')}</p>
 
       <div className={`spread result-spread${isWide ? ' spread-5' : ''}`}>
         {localizedPositions.map((pos, i) => {

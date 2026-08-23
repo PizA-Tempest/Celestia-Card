@@ -11,6 +11,7 @@
 - `npm run dev` — Vite dev server
 - `npm run build` — production build to `dist/`
 - `npm run preview` — serve the built output
+- `node scripts/audit-layout.mjs` — layout regression check: screenshots every `?phase=` screen at standard desktop/laptop/tablet/mobile resolutions, fails on horizontal overflow (needs `npm run preview` running + `puppeteer-core` devDependency + Chrome at the default install path)
 - No lint/typecheck configured (plain JSX).
 
 ## Architecture
@@ -25,10 +26,11 @@
 - `src/utils/favorites.js` — localStorage-backed favorites (`loadFavorites`, `toggleFavorite`).
 - `src/utils/share.js` — `buildShareText`/`shareText` (Web Share API with clipboard fallback).
 - `src/components/` — `TarotCard` (card face presentation), `CardReveal` (3D flip), `CardDeck` (face-down selection grid), `ReadingResult` (interpretation), `CardSpread` (generic multi-slot spread picker), `SpreadResult` (per-position + combined reading), `LuckyDraw` (single press-to-draw flip), `Encyclopedia` (search/filter grid + card detail view, favorite toggle + Favorites filter), `HistoryView` (localStorage history list + re-open past readings).
-- `src/App.jsx` — phase state machine (`intro` → `choose` → `result`). Add new reading modes by extending these phases.
+- `src/App.jsx` — phase state machine (`intro` → `choose` → `result`). Add new reading modes by extending these phases. `?phase=<name>` deep-links to any stateless screen (whitelisted in `QA_PHASES`) — used by the layout audit; result screens need drawn-card state and can't be deep-linked.
 - All styling is in `src/index.css` (no Tailwind). Dark celestial theme by default with a light variant switched via `html[data-theme='light']` (set by the header toggle, persisted in `localStorage` `celestia-theme`). Colors are CSS custom properties on `:root` — keep theme surfaces using variables (`--panel`, `--face-bg-*`, `--input-bg`, etc.), not hardcoded colors.
+- Responsive breakpoints at 1024/720/520px redefine `--card-w` on `:root` so the deck grid tracks and `.flip-card` size stay in sync — don't shrink grid tracks via `calc(var(--card-w) * k)` multipliers (cards would keep the unmultiplied width and overflow).
 
 ## Gotchas
 
 - On Windows, `npm.ps1` is blocked by execution policy — use `npm.cmd`.
-- `git` has no commits yet; README and app files are untracked. Don't commit unless asked.
+- The layout audit needs Chrome at `C:\Program Files\Google\Chrome\Application\chrome.exe` (hardcoded in the script) and `puppeteer-core` in devDependencies.

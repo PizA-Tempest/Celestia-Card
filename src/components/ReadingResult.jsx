@@ -19,7 +19,7 @@ export default function ReadingResult({
   const handleShare = async () => {
     const localized = { card: c, orientation }
     const result = await shareText(
-      buildShareText(t(titleKey), [localized], null)
+      buildShareText(t(titleKey + '.name'), [localized], null)
     )
     setShared(result === 'copied' ? t('result.copied') : null)
     if (result === 'copied') setTimeout(() => setShared(null), 2500)
@@ -27,7 +27,7 @@ export default function ReadingResult({
 
   return (
     <section className="result" aria-live="polite">
-      <p className="result-eyebrow">{t(titleKey)}</p>
+      <p className="result-eyebrow">{t(titleKey + '.name')}</p>
       <div className="result-card">
         <TarotCard card={card} />
       </div>

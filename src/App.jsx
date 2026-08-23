@@ -44,8 +44,19 @@ function storeTheme(theme) {
   }
 }
 
+const QA_PHASES = ['intro', 'choose', 'choose3', 'choose5', 'lucky', 'ency', 'history']
+
+function initialPhase() {
+  try {
+    const phase = new URLSearchParams(window.location.search).get('phase')
+    return QA_PHASES.includes(phase) ? phase : 'intro'
+  } catch {
+    return 'intro'
+  }
+}
+
 export default function App() {
-  const [phase, setPhase] = useState('intro')
+  const [phase, setPhase] = useState(initialPhase)
   const [draw, setDraw] = useState(null)
   const [spread, setSpread] = useState(null)
   const [lang, setLangState] = useState(loadLang)
